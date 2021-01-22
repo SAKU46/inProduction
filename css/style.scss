@@ -1,0 +1,1095 @@
+@mixin tab {
+  @media screen and (max-width: 1024px) {
+    @content;
+  }
+}
+@mixin sp {
+  @media screen and (max-width: 767px) {
+    @content;
+  }
+}
+@mixin se {
+  @media screen and (max-width: 374px) {
+    @content;
+  }
+}
+@keyframes svg {
+  0% {
+    fill: transparent;
+    stroke-dasharray: 2000px;
+    stroke-dashoffset: 2000px;
+  }
+  60% {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes img-wrap-before {
+  90% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+@keyframes img-wrap-after {
+  90% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+@keyframes marquee {
+  /*動作範囲(上級者向けの設定)*/
+  from {
+    transform: translate(0%);
+  }
+  99%,
+  to {
+    transform: translate(-140%);
+  }
+}
+html {
+  font-size: 62.5%;
+
+  * {
+    box-sizing: border-box;
+    color: white;
+  }
+
+  body {
+    overflow-x: hidden;
+    background-color: black;
+  }
+
+  a {
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  li {
+    list-style-type: none;
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+  }
+  .container {
+    box-sizing: content-box;
+    margin: 0 auto;
+    padding: 0 20px;
+    max-width: 900px;
+
+    @include sp {
+      padding: 0 15px;
+    }
+  }
+  .sp-br {
+    display: none;
+
+    @include sp {
+      display: block;
+    }
+  }
+
+  .stop {
+    overflow: hidden;
+  }
+}
+
+.header {
+  position: fixed;
+  z-index: 1;
+  width: 100%;
+  height: 80px;
+  &__container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 auto;
+    padding: 0 20px;
+    max-width: 1080px;
+    height: 100%;
+  }
+  &__logo {
+    display: flex;
+    align-items: center;
+    &--mark {
+      margin-right: 20px;
+      width: 40px;
+      height: 40px;
+
+      @include sp {
+        margin-right: 10px;
+        width: 30px;
+        height: 30px;
+      }
+    }
+    &--text {
+      width: auto;
+      height: 30px;
+      transform: translateY(3px);
+
+      @include sp {
+        height: 15px;
+        transform: translateY(1px);
+      }
+    }
+  }
+  &__nav {
+    display: flex;
+    font-size: 20px;
+
+    @include tab {
+      display: none;
+    }
+    &.hide {
+      display: none;
+
+      @include tab {
+        display: none;
+      }
+    }
+    &--text {
+      margin-left: 20px;
+      letter-spacing: 0.2em;
+      font-family: "Futura-Medium";
+
+      &::after {
+        display: block;
+        margin: auto;
+        width: 0px;
+        height: 1px;
+        background: transparent;
+        content: "";
+        transition: width 0.5s ease, background-color 0.5s ease;
+      }
+      &:hover:after {
+        width: 100%;
+        background: white;
+      }
+    }
+  }
+}
+
+.logo {
+  &__mark {
+    &--pc,
+    &--sp {
+      display: none;
+      path {
+        opacity: 0.8;
+        animation: svg 5s ease-in both;
+
+        stroke: white;
+        stroke-width: 1px;
+        @include sp {
+          animation: svg 3s ease-in both;
+
+          stroke-width: 0.5px;
+          fill: white;
+        }
+      }
+      position: relative;
+      z-index: 3;
+      &.black {
+        path {
+          fill: #000;
+        }
+      }
+    }
+    &--pc.show {
+      margin-right: 20px;
+      @media screen and (min-width: 768px) {
+        display: block;
+      }
+    }
+    &--sp.show {
+      margin-right: 10px;
+      @media screen and (max-width: 767px) {
+        display: block;
+      }
+    }
+  }
+  &__text {
+    &--pc.show {
+      transform: translateY(3px);
+      @media screen and (min-width: 768px) {
+        display: block;
+      }
+    }
+    &--sp.show {
+      transform: translateY(1px);
+      @media screen and (max-width: 767px) {
+        display: block;
+      }
+    }
+    &--pc,
+    &--sp {
+      display: none;
+      path {
+        opacity: 0.8;
+        animation: svg 10s ease-in both;
+
+        stroke: white;
+        stroke-width: 1px;
+        @include sp {
+          animation: svg 3s ease-in both;
+
+          stroke-width: 0.5px;
+          fill: white;
+        }
+      }
+      position: relative;
+      z-index: 3;
+      &.black {
+        path {
+          fill: #000;
+        }
+      }
+    }
+  }
+}
+
+
+.hamburger-btn {
+  z-index: 2;
+  display: none;
+  align-items: center;
+  padding: 0;
+  outline: none;
+  border: none;
+  background-color: transparent;
+  opacity: 0.8;
+  cursor: pointer;
+
+  appearance: none;
+  @include tab {
+    display: flex;
+  }
+  &.show {
+    display: flex;
+  }
+
+  &__bar {
+    margin-top: 3px;
+    margin-right: 10px;
+    &--top,
+    &--middle,
+    &--bottom {
+      display: block;
+      width: 25px;
+      height: 2px;
+      border-radius: 1px;
+      background-color: white;
+    }
+    &--top {
+      transition: transform 1s;
+      transform: translateY(-5px);
+    }
+    &--bottom {
+      transition: transform 1s;
+      transform: translateY(5px);
+    }
+  }
+  &__text {
+    display: block;
+    margin-top: 3px;
+    text-transform: uppercase;
+    font-size: 2rem;
+    font-family: "Futura-Medium";
+
+    @include sp {
+      font-size: 1.5rem;
+    }
+    &.black {
+      color: #333;
+    }
+  }
+  &__musk {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    display: none;
+    width: 100vw;
+    height: 100vh;
+  }
+}
+
+.slide-nav {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
+  width: 100vw;
+  height: 100vh;
+  background-color: white;
+  transition: transform 0.3s;
+  transform: translateX(100%);
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    margin-top: 25vh;
+    li {
+      display: inline-block;
+      margin: 30px auto;
+      text-align: center;
+      letter-spacing: 0.3em;
+      font-size: 3rem;
+      font-family: "Futura-Medium";
+      @include sp {
+        font-size: 2.5rem;
+        margin: 20px auto;
+      }
+      a {
+        color: #333;
+      }
+      &::after {
+        display: block;
+        margin: auto;
+        width: 0px;
+        height: 1px;
+        background: transparent;
+        content: "";
+        transition: width 0.5s ease, background-color 0.5s ease;
+      }
+      &:hover:after {
+        width: 100%;
+        background: red;
+      }
+    }
+  }
+  &__contact {
+    margin-top: 10px;
+    margin-left: 20px;
+    &--top {
+      font-size: 1.2rem;
+    }
+    &--bottom {
+      margin-top: 5px;
+      font-weight: bold;
+      font-size: 1.6rem;
+    }
+    img {
+      margin-right: 5px;
+      width: 10px;
+      height: 15px;
+    }
+  }
+  &__btn {
+    display: flex;
+    margin-top: 10px;
+    margin-left: 20px;
+    &--left,
+    &--right {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 150px;
+      height: 40px;
+      border-radius: 5px;
+
+      @include sp {
+        width: 100px;
+        height: 30px;
+      }
+      a {
+        color: white;
+        font-weight: bold;
+        font-size: 1.2rem;
+      }
+    }
+
+    &--right {
+      margin-right: 20px;
+      margin-left: 10px;
+    }
+  }
+  &.slide {
+    transition: transform 0.3s;
+    transform: translateX(0);
+  }
+}
+
+.bar {
+  &.cross {
+    &.hamburger-btn__bar {
+      &--top {
+        transform: translateY(2px) rotate(225deg);
+      }
+      &--middle {
+        opacity: 0;
+      }
+      &--bottom {
+        transform: translateY(-2px) rotate(-225deg);
+      }
+    }
+  }
+  &.black {
+    background-color: #333;
+  }
+}
+
+.first-view {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 10;
+  display: none;
+  margin: auto;
+  -webkit-transform: translateY(-50%) translateX(-50%);
+  transform: translateY(-50%) translateX(-50%);
+  &__mark {
+    margin-left: 30px;
+    width: 150px;
+  }
+  &__text {
+    margin-top: 30px;
+    width: 200px;
+  }
+}
+
+.hero-area {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  background-image: url(../img/hero-image.jpg);
+  background-position: center;
+  background-size: cover;
+  text-align: center;
+  @include sp {
+    height: 80vh;
+  }
+  &__curtain {
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+    @include sp {
+      display: none;
+    }
+    &:before,
+    &:after {
+      position: absolute;
+      right: 0;
+      left: 0;
+      z-index: 1;
+      background: #000;
+      content: "";
+      animation: 4.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      pointer-events: none;
+    }
+    &::before {
+      top: 0;
+      bottom: 50%;
+      animation-name: img-wrap-before;
+    }
+    &::after {
+      top: 50%;
+      bottom: 0;
+      animation-name: img-wrap-after;
+    }
+  }
+
+  &__text-area {
+    position: absolute;
+    margin: 0 auto;
+
+    &--line {
+      margin-left: 5vw;
+      width: 90vw;
+      height: 2px;
+      background-color: red;
+      transition: transform 0.5s;
+      transform: scale(0, 1);
+      transform-origin: left top;
+      &.slide {
+        transition: transform 0.5s;
+        transform: scale(1, 1);
+      }
+    }
+
+    &--text {
+      position: absolute;
+      top: -55px;
+      display: inline-block;
+      margin-top: 15px;
+      // アニメーション
+      padding-left: 724px; /*アニメーションの範囲*/
+      white-space: nowrap;
+      letter-spacing: 0.5em;
+      font-size: 8rem;
+      font-family: "Arial-Black";
+      animation-name: marquee; /*アニメーションのクラス名*/
+      animation-duration: 30s; /*アニメーションの速度*/
+      animation-timing-function: linear; /*アニメーションのタイミング・進行割合の指定*/
+      animation-iteration-count: infinite; /*アニメーションの動作回数*/
+    }
+  }
+  &__scroll-nav {
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    z-index: 0;
+    margin: auto;
+    -webkit-transform: translateX(-50%);
+    transform: translateY(200px);
+    transform: translateX(-50%);
+
+    @include sp {
+      top: 88%;
+    }
+    &--text {
+      font-size: 2rem;
+      font-family: "Futura-Medium";
+
+      @include sp {
+        font-size: 1.4rem;
+      }
+    }
+    img {
+      width: 15px;
+      transform: translateY(15px);
+    }
+  }
+}
+
+.curtain__sp {
+  position: absolute;
+  z-index: 5;
+  border-top: 50vh solid transparent;
+  border-right: 50vw solid #000;
+  border-bottom: 50vh solid #000;
+  border-left: 50vw solid transparent;
+  @media screen and (min-width:768px){
+    display: none;
+  }
+  &--second {
+    position: absolute;
+    z-index: 5;
+    border-top: 50vh solid #000;
+    border-right: 50vw solid transparent;
+    border-bottom: 50vh solid transparent;
+    border-left: 50vw solid #000;
+    @media screen and (min-width:768px){
+      display: none;
+    }
+  }
+}
+
+.about {
+  margin-top: 240px;
+  padding: 0 20px;
+  text-align: center;
+
+  @include sp {
+    margin-top: 200px;
+    padding: 0 15px;
+  }
+  &__title {
+    display: inline-block;
+    margin: 0 auto;
+    padding-bottom: 10px;
+    border-bottom: 2px solid red;
+    letter-spacing: 1em;
+    font-size: 4.5rem;
+    font-family: "Arial-Black";
+
+    @include sp {
+      font-size: 5.3vw;
+    }
+    span {
+      letter-spacing: 0;
+    }
+  }
+  &__image {
+    margin: 60px 0;
+    width: 145px;
+
+    @include sp {
+      margin: 30px 0;
+      width: 100px;
+    }
+  }
+  &__text {
+    font-size: 1.5rem;
+    line-height: 1.5;
+
+    @include sp {
+      font-size: 1.2rem;
+    }
+  }
+}
+
+.portfolio {
+  margin-top: 240px;
+  text-align: center;
+
+  @include sp {
+    margin-top: 120px;
+  }
+  &__title {
+    display: inline-block;
+    padding-bottom: 10px;
+    border-bottom: 2px solid red;
+    letter-spacing: 1em;
+    font-size: 4.5rem;
+    font-family: "Arial-Black";
+
+    @include sp {
+      font-size: 5.3vw;
+    }
+    span {
+      letter-spacing: 0;
+    }
+  }
+
+  &__container {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 120px;
+
+    @include sp {
+      margin-top: 60px;
+    }
+  }
+  &__wrapper {
+    transition: 1s;
+    &:nth-child(odd) {
+      display: flex;
+
+      @include sp {
+        flex-direction: column;
+      }
+      .portfolio__content {
+        flex-direction: row-reverse;
+
+        @include sp {
+          &:nth-child(odd) {
+            flex-direction: row;
+          }
+        }
+      }
+    }
+    &:nth-child(even) {
+      display: flex;
+
+      @include sp {
+        flex-direction: column;
+      }
+    }
+  }
+  &__content {
+    &:nth-child(odd) {
+      display: flex;
+    }
+    &:nth-child(even) {
+      display: flex;
+
+      @include sp {
+        flex-direction: row-reverse;
+      }
+    }
+  }
+  &__image {
+    width: 25vw;
+    height: 25vw;
+
+    @include sp {
+      width: 50vw;
+      height: 50vw;
+    }
+  }
+
+  &__intro {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    width: 25vw;
+    height: 25vw;
+    background-color: #101010;
+
+    @include sp {
+      width: 50vw;
+      height: 50vw;
+    }
+    &--text {
+      padding: 20px;
+      text-align: center;
+      font-size: 1.8rem;
+      line-height: 1.5;
+
+      @include sp {
+        font-size: 1.5rem;
+      }
+    }
+    &--btn {
+      letter-spacing: 0.1em;
+      font-size: 1.3rem;
+      font-family: "Futura-Medium";
+      cursor: pointer;
+      border: 1px solid white;
+      padding: 5px;
+      border-radius: 2px;
+      opacity: 0.8;
+      transition: 0.3s;
+      &:hover {
+        opacity: 1;
+        transition: 0.3s;
+      }
+    }
+  }
+}
+
+.intro {
+  position: absolute;
+  top: 5vw;
+  left: 5vw;
+  display: flex;
+  opacity: 0.9;
+
+  @include sp {
+    flex-direction: column;
+    left: 10vw;
+  }
+  &__image {
+    width: 40vw;
+    height: 40vw;
+    background-image: url(../img/portfolio1.jpg);
+    background-size: cover;
+    transition: 1s;
+    @include sp {
+      width: 80vw;
+      height: 50vw;
+    }
+  }
+  &__box {
+    margin-left: 10vw;
+    padding: 40px;
+    width: 40vw;
+    height: 40vw;
+    background-color: rgba($color: red, $alpha: 0.7);
+    transition: 1s;
+    @include sp {
+      margin-left: 0;
+      width: 80vw;
+      height: 70vw;
+      padding: 30px;
+      background-color: gray;
+    }
+    &--title {
+      font-size: 4rem;
+      @media screen and (max-width: 1200px) {
+        font-size: 3.5rem;
+      }
+      @media screen and (max-width: 1024px) {
+        font-size: 2rem;
+      }
+      @media screen and (max-width: 767px) {
+      }
+    }
+    &--text {
+      margin-top: 40px;
+      text-align: left;
+      font-size: 2.5rem;
+      line-height: 1.5;
+      @media screen and (max-width: 1200px) {
+        font-size: 2rem;
+      }
+      @media screen and (max-width: 1024px) {
+        font-size: 1.5rem;
+      }
+      @media screen and (max-width: 767px) {
+        margin-top: 20px;
+      }
+    }
+  }
+  &__btn {
+    display: flex;
+    margin-top: 40px;
+    font-size: 2.5rem;
+    @media screen and (max-width: 1200px) {
+      font-size: 2rem;
+    }
+    @media screen and (max-width: 1024px) {
+      font-size: 1.5rem;
+    }
+    cursor: pointer;
+    &--back {
+      margin-right: 20px;
+    }
+  }
+}
+
+.service {
+  margin-top: 240px;
+  text-align: center;
+  @include sp {
+    margin-top: 120px;
+  }
+  &__title {
+    display: inline-block;
+    margin: 0 auto;
+    padding-bottom: 10px;
+    border-bottom: 2px solid red;
+    letter-spacing: 1em;
+    font-size: 4.5rem;
+    font-family: "Arial-Black";
+
+    @include sp {
+      font-size: 5.3vw;
+    }
+    span {
+      letter-spacing: 0;
+    }
+  }
+  &__wrapper {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    max-width: 1080px;
+
+    @include sp {
+      align-items: center;
+      flex-direction: column;
+    }
+  }
+  &__content {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 120px;
+    max-width: 320px;
+    @include sp {
+      margin-top: 60px;
+    }
+    &--title {
+      text-align: center;
+      letter-spacing: 0.2em;
+      font-weight: lighter;
+      font-size: 3rem;
+      font-family: "Futura-Medium";
+    }
+    &--image {
+      margin-top: 30px;
+      width: auto;
+      height: 150px;
+    }
+    &--text {
+      margin-top: 30px;
+      text-align: left;
+      font-size: 1.6rem;
+      line-height: 1.5;
+    }
+  }
+}
+
+.contact {
+  margin-top: 240px;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 0 20px;
+  max-width: 1080px;
+  text-align: center;
+
+  @include sp {
+    margin-top: 120px;
+  }
+  &__left,
+  &__right {
+    width: 100%;
+    text-align: left;
+  }
+  input,
+  textarea {
+    padding: 20px;
+    width: 500px;
+    outline: none;
+    border: none;
+    border-bottom: 2px solid white;
+    background-color: inherit;
+    font-size: 2rem;
+    resize: none;
+
+    appearance: none;
+    -webkit-appearance: none;
+    @media screen and (max-width: 1080px) {
+      width: 45vw;
+    }
+    &::-webkit-input-placeholder {
+      font-size: 1.5rem;
+    }
+    &:-moz-placeholder {
+      font-size: 1.5rem;
+    }
+    &::-moz-placeholder {
+      font-size: 1.5rem;
+    }
+    &:-ms-input-placeholder {
+      font-size: 1.5rem;
+    }
+    @media screen and (max-width: 767px) {
+      width: 100%;
+    }
+  }
+
+  input {
+    margin-bottom: 40px;
+  }
+
+  textarea {
+    height: 315px;
+  }
+
+  &__title {
+    display: inline-block;
+    padding-bottom: 10px;
+    border-bottom: 2px solid red;
+    letter-spacing: 1em;
+    font-size: 4.5rem;
+    font-family: "Arial-Black";
+
+    @include sp {
+      font-size: 5.3vw;
+    }
+    span {
+      letter-spacing: 0;
+    }
+  }
+  &__form {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 120px;
+
+    @include sp {
+      margin-top: 60px;
+    }
+    @include sp {
+      align-items: center;
+      flex-direction: column;
+    }
+  }
+  &__content {
+    &--text {
+      font-size: 2rem;
+      font-family: "Futura-Medium";
+
+      @include sp {
+        font-size: 1.6rem;
+      }
+    }
+  }
+  &__send {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 30px;
+    &--text {
+      margin-right: 20px;
+      margin-left: 40px;
+      font-size: 2rem;
+      font-family: "Futura-Medium";
+
+      @include sp {
+        font-size: 1.6rem;
+      }
+    }
+    svg {
+      width: 25px;
+      height: 25px;
+
+      @include sp {
+        width: 20px;
+        height: 20px;
+      }
+      g {
+        fill: white;
+      }
+    }
+  }
+}
+
+.footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin: 60px auto 20px auto;
+  padding: 0 20px;
+  max-width: 1080px;
+
+  @include sp {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  &__left {
+    letter-spacing: 0.2em;
+    font-size: 1.8rem;
+    font-family: "Futura-Medium";
+    ul {
+      @include sp {
+        display: flex;
+        font-size: 1.6rem;
+      }
+      @include se {
+        display: block;
+        text-decoration: underline;
+      }
+      li {
+        display: inline-block;
+        &::after {
+          display: block;
+          margin: auto;
+          width: 0px;
+          height: 1px;
+          background: transparent;
+          content: "";
+          transition: width 0.5s ease, background-color 0.5s ease;
+        }
+        &:hover:after {
+          width: 100%;
+          background: white;
+        }
+      }
+    }
+
+    &--text {
+      margin-top: 20px;
+      @media screen and (min-width: 374px) and (max-width: 768px) {
+        margin: 0;
+        padding: 0 5px;
+        font-size: 1.5rem;
+        border-right: 1px solid white;
+      }
+      &:first-child {
+        margin-top: 0;
+        padding-left: 0;
+      }
+      &:last-child {
+        border-right: none;
+      }
+    }
+  }
+  &__right {
+    text-align: right;
+    letter-spacing: 0.2em;
+    font-weight: bold;
+    font-size: 1.8rem;
+
+    @include sp {
+      margin-top: 30px;
+      text-align: left;
+      font-size: 1.2rem;
+    }
+
+    &--bottom {
+      margin-top: 20px;
+    }
+  }
+}
