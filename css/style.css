@@ -103,6 +103,7 @@ html * {
 html body {
   overflow-x: hidden;
   background-color: black;
+  position: relative;
 }
 
 html a {
