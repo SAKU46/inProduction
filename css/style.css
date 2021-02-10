@@ -721,7 +721,7 @@ html .stop {
 
 .hero-area__scroll-nav {
   position: absolute;
-  top: 80%;
+  top: 80vh;
   left: 50%;
   z-index: 0;
   margin: auto;
