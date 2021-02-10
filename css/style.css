@@ -101,9 +101,7 @@ html * {
 }
 
 html body {
-  overflow-x: hidden;
   background-color: black;
-  position: relative;
 }
 
 html a {
@@ -121,17 +119,8 @@ html img {
 }
 
 html .container {
-  -webkit-box-sizing: content-box;
-          box-sizing: content-box;
-  margin: 0 auto;
-  padding: 0 20px;
-  max-width: 900px;
-}
-
-@media screen and (max-width: 767px) {
-  html .container {
-    padding: 0 15px;
-  }
+  overflow-x: hidden;
+  position: relative;
 }
 
 html .sp-br {
@@ -634,7 +623,7 @@ html .stop {
 
 @media screen and (max-width: 767px) {
   .hero-area {
-    height: 80vh;
+    height: 70vh;
   }
 }
 
